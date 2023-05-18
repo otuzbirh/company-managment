@@ -1,0 +1,18 @@
+import axios  from 'axios';
+const createApiClient = () => {
+
+
+
+    const client = axios.create({
+        baseURL: "http://54.80.115.47",
+        headers: {
+            Authorization : `Bearer ${localStorage.getItem("token")}`
+        }
+    })
+    return client;
+}
+
+export function api() {
+    const api = createApiClient();
+    return api;
+}
