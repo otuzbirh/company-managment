@@ -13,9 +13,6 @@ const GoogleLoginComponent = ({ responseSuccess, responseError }) => {
   const handleSignIn = () => {
     signIn()
     .then((response) => {
-        console.log(response)
-        console.log('User profile:', response.profileObj);
-
         if (responseSuccess) {
           responseSuccess(response);
         }

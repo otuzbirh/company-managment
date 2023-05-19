@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
 import {Table, Menu, MenuItem, Button} from '@mui/material';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -62,7 +61,6 @@ export default function TableComponent({columns, createData, rows}) {
 
   function handleSubmit() {
     setModalState(false)
-    console.log("submitted")
     companiesApi().deleteCompany(selectedId)
     .then((response) => {
         alert('You deleted company successfully');
@@ -129,8 +127,7 @@ export default function TableComponent({columns, createData, rows}) {
                           onClick={(event) => {
                             // setSelectedId(row.companyId); 
                             handleClick(event, row.companyId, row.companyName);
-                            console.log("id", selectedId)
-                            console.log("name", selectedName)
+                         
                           }}
                         >
                           <MoreVertIcon sx={{color: '#253237'}} />

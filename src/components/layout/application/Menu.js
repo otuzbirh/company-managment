@@ -11,19 +11,51 @@ import {
   Divider,
   
 } from '@mui/material';
+import { useDispatch } from "react-redux";
 import { Link } from 'react-router-dom';
 import { Apartment, AddBusiness, Close, Logout, Preview, DragIndicator } from '@mui/icons-material';
+import { useGoogleLogin } from 'react-use-googlelogin';
+import { useNavigate } from 'react-router-dom';
+import {
+  setIsAuthenticated,
+} from "./../../../store/store";
+
 
 const drawerWidth = 240;
 
 const Menu = ({open, handleClose}) => {
 
+  //Logout functionality
+  const dispatch = useDispatch();
+
+
+  const { signOut } = useGoogleLogin({
+    clientId: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+   
+  });
+
+  const navigate = useNavigate()
+
+  const handleLogout = () => {
+    signOut()
+      .then((res) => {
+        localStorage.removeItem("token")
+        localStorage.removeItem("authState")
+        dispatch(setIsAuthenticated(false));
+
+        navigate('/')
+      })
+      .catch((error) => {
+        alert('Error happened during log out process', error.message)
+      })
+  };
+
   
   const menuItems = [
     { text: 'Companies', icon: <Apartment />, path: '/application/companies' },
     { text: 'Create Company', icon: <AddBusiness />, path: '/application/create-company' },
-    { text: 'Drag Companies', icon: <DragIndicator />, path: '/companies/drag' },
-    { text: 'Text', icon: <Preview />, path: '/text' },
+    { text: 'Drag Companies', icon: <DragIndicator />, path: '/application/drag-companies' },
+    { text: 'Text', icon: <Preview />, path: '/application/text-example' },
   ];
 
 
@@ -93,6 +125,7 @@ const Menu = ({open, handleClose}) => {
         <Box sx={{ p: 2 }}>
           <ListItem
             button
+            onClick={handleLogout}
             sx={{
               color: 'white',
               '&:hover': {

@@ -13,6 +13,7 @@ import {
   setPicture,
 } from "./../../store/store";
 import GoogleLoginComponent from "../../components/common/GoogleLogin";
+import meApi from "../../http/me";
 
 const HomeContainer = styled(Container)(({ theme }) => {
   return {
@@ -31,13 +32,9 @@ const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+ 
+
   const responseMessage = (response) => {
-
-    console.log(response.tokenId)
-
-    setTimeout(() => {
-      navigate("/application/companies");
-    }, 1000);
     dispatch(setIsAuthenticated(true));
     dispatch(setToken(response.accessToken));
     dispatch(setTokenId(response.tokenId));
@@ -46,10 +43,21 @@ const Home = () => {
     dispatch(setPicture(response.profileObj.imageUrl));
 
     localStorage.setItem("token", response.tokenId);
+    meApi().meEndpoint()
+      .then(res => console.log("Authorized"))
+      .catch((error) => {
+        alert('Error ocured during authorization', error.message)
+      })
+
+    setTimeout(() => {
+      navigate("/application/companies");
+    }, 1000);
+   
   };
   const errorMessage = (error) => {
     console.log(error);
   };
+
 
   return (
     <FullScreenLayout>

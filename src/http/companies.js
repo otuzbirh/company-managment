@@ -10,9 +10,9 @@ export default function companiesApi() {
             api().get(`/companies/${id}`),
         deleteCompany: async (id) =>
             api().delete(`/companies/${id}`),
-        updateCompany: async (id) => 
-            api().put(`/companies/${id}`)
+        updateCompany: async (id, data) => 
+            api().put(`/companies/${id}`, data)
      
-
+        
     }
 }
